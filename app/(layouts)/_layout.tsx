@@ -20,26 +20,28 @@ export default function TabLayout() {
         tabBarBackground: TabBarBackground,
         tabBarStyle: Platform.select({
           ios: {
-            // Use a transparent background on iOS to show the blur effect
             position: 'absolute',
           },
           default: {},
         }),
       }}>
       <Tabs.Screen
-        name="index"
+        name="HomeScreen"
         options={{
-          title: 'Home',
+          title: 'Home Screen',
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="AddTransactionScreen"
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          title: 'Add Transaction',
+          tabBarIcon: ({ color }) => (
+            <IconSymbol size={28} name="plus.circle" color={color} />
+          ),
         }}
       />
+
     </Tabs>
   );
 }
