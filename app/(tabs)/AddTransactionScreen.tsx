@@ -33,7 +33,7 @@ export default function AddTransactionScreen() {
   }
 
   const useFallback = (item: Category): React.ComponentProps<typeof MaterialIcons>['name'] => {
-    return item.icon || 'category';  
+    return item.icon || 'category';
   };
 
 
@@ -44,12 +44,14 @@ export default function AddTransactionScreen() {
       onPress={() => {
         if (item.title === 'Add') {
           setModalVisible(true);
+        } else {
+          router.push({ pathname: '/screen/CategoryDetailScreen', params: { id: item.id, title: item.title, icon: item.icon } });
         }
       }}
     >
       <View style={[styles.categoryBox, item.title === 'Add' && { backgroundColor: '#ccc' }]}>
         <MaterialIcons
-          name={item.title === 'Add' ? 'add' : useFallback(item)} 
+          name={item.title === 'Add' ? 'add' : useFallback(item)}
           size={24}
           color="#fff"
         />
