@@ -35,8 +35,9 @@ interface CustomModalProps {
 export default function CustomModal({ visible, onClose }: CustomModalProps) {
     const [categoryName, setCategoryName] = useState('');
     const [selectedIcon, setSelectedIcon] = useState<string | null>(null);
+    const [isLoading, setIsLoading] = useState(false);
 
-    const createCategory = useCategoryStore(state => state.createCategory); // Accessing createCategory from the store
+    const createCategory = useCategoryStore(state => state.createCategory);
 
     const handleSave = async () => {
         if (!categoryName || !selectedIcon) {
@@ -44,16 +45,23 @@ export default function CustomModal({ visible, onClose }: CustomModalProps) {
             return;
         }
 
-        try {
-            // Call the Zustand store's createCategory method
-            await createCategory(categoryName, selectedIcon);
+        setIsLoading(true);
 
-            console.log('Category added successfully.');
+        try {
+
+            await new Promise(resolve => setTimeout(resolve, 1000));
+
+            await createCategory(categoryName, selectedIcon);
+            setCategoryName('');
+            setSelectedIcon(null);
             onClose();
         } catch (error) {
             console.error('Error adding category:', error);
+        } finally {
+            setIsLoading(false);
         }
     };
+
 
     return (
         <Modal transparent visible={visible} animationType="fade">
@@ -90,9 +98,13 @@ export default function CustomModal({ visible, onClose }: CustomModalProps) {
 
                         <TouchableOpacity
                             activeOpacity={0.7}
-                            onPress={handleSave} style={styles.saveButton}>
-                            <Text style={styles.saveText}>Save</Text>
+                            onPress={handleSave}
+                            style={styles.saveButton}
+                            disabled={isLoading}
+                        >
+                            <Text style={styles.saveText}>{isLoading ? 'Saving...' : 'Save'}</Text>
                         </TouchableOpacity>
+
                     </View>
                 </View>
             </View>

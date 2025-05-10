@@ -24,6 +24,39 @@ export default function AddTransactionScreen() {
     didFetchRef.current = true;
   }
 
+  const dataWithId: (Category | { id: string; title: string })[] = [...categories.slice().reverse(), { id: 'add', title: 'Add' }];
+
+  interface Category {
+    id: string;
+    title: string;
+    icon?: React.ComponentProps<typeof MaterialIcons>['name'];
+  }
+
+  const useFallback = (item: Category): React.ComponentProps<typeof MaterialIcons>['name'] => {
+    return item.icon || 'category';  
+  };
+
+
+  const renderItem = ({ item }: { item: Category }) => (
+    <TouchableOpacity
+      activeOpacity={0.7}
+      style={{ flexDirection: 'column', alignItems: 'center', gap: 5, margin: 8 }}
+      onPress={() => {
+        if (item.title === 'Add') {
+          setModalVisible(true);
+        }
+      }}
+    >
+      <View style={[styles.categoryBox, item.title === 'Add' && { backgroundColor: '#ccc' }]}>
+        <MaterialIcons
+          name={item.title === 'Add' ? 'add' : useFallback(item)} 
+          size={24}
+          color="#fff"
+        />
+      </View>
+      <Text style={styles.categoryText}>{item.title}</Text>
+    </TouchableOpacity>
+  );
   return (
     <AppLayout>
       <View style={styles.container}>
@@ -75,32 +108,14 @@ export default function AddTransactionScreen() {
 
         <View style={styles.transactionContainer}>
           <FlatList
-            data={[...categories, { title: 'Add' }]}
-            keyExtractor={(item, index) => index.toString()}
+            data={dataWithId}
+            keyExtractor={(item) => item.id.toString()}
             numColumns={3}
             showsVerticalScrollIndicator={false}
             columnWrapperStyle={styles.categoryContainer}
-            renderItem={({ item }) => (
-              <TouchableOpacity
-                activeOpacity={0.7}
-                style={{ flexDirection: 'column', alignItems: 'center', gap: 5, margin: 8 }}
-                onPress={() => {
-                  if (item.title === 'Add') {
-                    setModalVisible(true);
-                  }
-                }}
-              >
-                <View style={[styles.categoryBox, item.title === 'Add' && { backgroundColor: '#ccc' }]}>
-                  <MaterialIcons
-                    name={item.title === 'Add' ? 'add' : item.icon || 'category'}
-                    size={24}
-                    color="#fff"
-                  />
-                </View>
-                <Text style={styles.categoryText}>{item.title}</Text>
-              </TouchableOpacity>
-            )}
+            renderItem={renderItem}
           />
+
         </View>
 
 
