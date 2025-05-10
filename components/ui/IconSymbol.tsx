@@ -18,8 +18,12 @@ const MAPPING = {
   'paperplane.fill': 'send',
   'chevron.left.forwardslash.chevron.right': 'code',
   'chevron.right': 'chevron-right',
-  'plus.circle': 'add-circle'
-} as IconMapping;
+  'plus.circle': 'add-circle',
+  'square.stack.3d.up.fill': 'layers',
+
+} as const satisfies Partial<IconMapping>;
+
+
 
 
 /**

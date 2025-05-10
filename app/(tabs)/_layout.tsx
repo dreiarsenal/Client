@@ -18,6 +18,9 @@ export default function TabLayout() {
         headerShown: false,
         tabBarButton: HapticTab,
         tabBarBackground: TabBarBackground,
+        tabBarItemStyle: {
+          paddingVertical: 5,
+        },
         tabBarStyle: Platform.select({
           ios: {
             position: 'absolute',
@@ -28,16 +31,17 @@ export default function TabLayout() {
       <Tabs.Screen
         name="HomeScreen"
         options={{
-          title: 'Home Screen',
+          tabBarLabel: '',
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
         }}
       />
+
       <Tabs.Screen
         name="AddTransactionScreen"
         options={{
-          title: 'Add Transaction',
+          tabBarLabel: '',
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="plus.circle" color={color} />
+            <IconSymbol size={28} name="square.stack.3d.up.fill" color={color} />
           ),
         }}
       />
